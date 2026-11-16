@@ -1,0 +1,15 @@
+import { useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext.jsx";
+
+export default function ProtectedRoute({ children, role }) {
+  const { user } = useContext(AuthContext);
+
+  if (!user) return <Navigate to="/login" replace />;
+
+  if (role && user.role !== role) {
+    return <h2 className="text-center mt-5">Access Denied</h2>;
+  }
+
+  return children;
+}
